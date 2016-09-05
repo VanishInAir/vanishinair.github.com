@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>如果你想在科技创业公司(或任一家公司)谋得一份职位的话,那就上门求助吧！ | Air&#39;s blog</title>
+  <title>c++面试前总结 | Air&#39;s blog</title>
   <meta name="author" content="Air">
   
   <meta name="description" content="">
@@ -13,7 +13,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="如果你想在科技创业公司(或任一家公司)谋得一份职位的话,那就上门求助吧！"/>
+  <meta property="og:title" content="c++面试前总结"/>
   <meta property="og:site_name" content="Air&#39;s blog"/>
 
   
@@ -70,25 +70,85 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-03-16T11:28:20.000Z"><a href="/zh/2015/03/16/call-support-for-a-Job-at-a-tech-startup/">Mar 16 2015</a></time>
+        <time datetime="2016-09-05T13:32:26.000Z"><a href="/zh/2016/09/05/c-plus-plus-interview-tips/">Sep 5 2016</a></time>
       
       
   
-    <h1 class="title">如果你想在科技创业公司(或任一家公司)谋得一份职位的话,那就上门求助吧！</h1>
+    <h1 class="title">c++面试前总结</h1>
   
 
     </header>
     <div class="entry">
       
-        <p><img src="http://7xi3xu.com1.z0.glb.clouddn.com/synupqvnlrgzm9nqvngp.jpg" alt=""></p>
+        <p><img src="http://7xi3xu.com1.z0.glb.clouddn.com/60f2101955e3b7afbae96e419559be94.jpg" alt=""></p>
 <a id="more"></a>
-<p>即便是科技创业公司没有发布空缺的职位,也不意味着你就不能在那家公司谋得一份工作。如果你没有必要找一份正儿八经的工作,那就请你洗洗睡吧。不过有时你依然可以通过科技创业公司所提供的客户服务作为切入点来打动公司相关人员以此给他留下深刻的印象，从而从这家公司谋得一份工作,最后踏入这家公司所涉及的行业。</p>
-<p>如果你能在科技创业公司的客服方面有很好的点子,客服无疑是你谋得该公司职位的一把利器。求职社区The Muse表明以下这种新方法可能会让你进入该公司所从事的行业。</p>
-<blockquote>
-<p>首先，你要传达出你忠于这家公司(告诉他们你一直欣赏这家公司,以至于你强烈觉得他们的某项产品或流程需要改善)。其次，你要求找到公司合适的人进一步沟通，但是绝对不要谈及你的职业兴趣。</p>
-</blockquote>
-<p>一旦你找对了相关人士和解释了你的点子，这个时候你就要在谈话中提及工作的事情。这是一个表达你喜欢在这儿工作的一个最好时机。如果你没有提及工作事宜，但是你已经获得了这家公司的联系方式。现在你知道了在那个部门的相关人士的名字，你要做的就是交谈之后给他们发送你的简历和求职信。</p>
-<p>[原文链接：<a href="http://lifehacker.com/call-support-if-you-want-a-job-at-a-tech-startup-or-an-1685048741" target="_blank" rel="external">lifehacker.com</a>]</p>
+<p>C++这门语言很任性啊，不仅像C语言一样需要从头搭建自己的功能包，而且又要像C#一样囊括非常多的基础类以及高级语言特性。我这篇文章准备列举在日常工作当中需要留意的C++细节，这些细节很重要，能够拉近你对C++的认识，同时也是面试当中考官非常想问的问题，那我们开始吧！</p>
+<p><strong>函数重载</strong></p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">A</span>
+</span>{
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> f(<span class="keyword">int</span> *<span class="keyword">const</span> a)
+    <span class="keyword">void</span> f(<span class="keyword">int</span> *<span class="keyword">const</span> a) <span class="keyword">const</span>
+    <span class="keyword">void</span> f(<span class="keyword">int</span> <span class="keyword">const</span>* a) //编译器编译的结果为<span class="keyword">void</span> f(A *<span class="keyword">const</span> <span class="keyword">this</span>,<span class="keyword">int</span> <span class="keyword">const</span> *a)
+    <span class="keyword">void</span> f(<span class="keyword">int</span> <span class="keyword">const</span>* a) <span class="keyword">const</span> //编译器编译的结果为<span class="keyword">void</span> f(A <span class="keyword">const</span> *<span class="keyword">this</span>,<span class="keyword">int</span> <span class="keyword">const</span> *a)
+}
+</code></pre><p><strong>this指针</strong></p>
+<pre><code><span class="literal">A</span> <span class="built_in">a_obj</span><span class="comment">;</span>
+int i_val = <span class="number">0</span><span class="comment">;</span>
+<span class="built_in">a_obj</span>.f(&amp;i_val)<span class="comment">;//编译器编译的结果为:A::f(&amp;a_obj,&amp;i_val);</span>
+</code></pre><p><strong>函数参数压栈顺序</strong></p>
+<pre><code>f(<span class="keyword">int</span> a,<span class="keyword">float</span> b,<span class="keyword">double</span> c){}
+f(<span class="number">1</span>,<span class="number">0.f</span>,<span class="number">0.0</span>);<span class="comment">//先push c，再push b，再push a，如下示意图</span>
+ ——————
+|___a__|&lt;---<span class="built_in">stack</span> top 低地址 <span class="number">0x0025fa90</span> - <span class="number">8</span> - <span class="number">4</span>
+|___b__|
+|___c__|&lt;---<span class="built_in">stack</span> bottom 高地址，比如<span class="number">0x0025fa90</span>
+</code></pre><p><strong>move constructor &amp; std::move</strong></p>
+<pre><code><span class="number">1.</span>move <span class="constructor"><span class="keyword">constructor</span>的作用是将右值引用中的资源窃取过来,避免不必要的开销
+2.返回传入对象的右值引用
+class string
+</span>{
+    char* data;
+
+<span class="keyword">public</span>:
+
+    <span class="built_in">string</span>(<span class="keyword">const</span> char* p)
+    {
+        size_t size = strlen(p) + <span class="number">1</span>;
+        data = <span class="keyword">new</span> char[size];
+        memcpy(data, p, size);
+    }
+    ~<span class="built_in">string</span>()
+    {
+        <span class="keyword">delete</span>[] data;
+    }
+
+    <span class="built_in">string</span>(<span class="keyword">const</span> <span class="built_in">string</span>&amp; that)
+    {
+        size_t size = strlen(that.data) + <span class="number">1</span>;
+        data = <span class="keyword">new</span> char[size];
+        memcpy(data, that.data, size);
+    }
+    <span class="built_in">string</span>(<span class="built_in">string</span>&amp;&amp; that)   <span class="comment">// string&amp;&amp; is an rvalue reference to a string</span>
+    {
+        data = that.data;
+        that.data = nullptr;
+    }
+    <span class="built_in">string</span>&amp; operator=(<span class="built_in">string</span> that)
+    {
+        std::swap(data, that.data);
+        <span class="keyword">return</span> *<span class="keyword">this</span>;
+    }
+};
+<span class="built_in">string</span> strmy(){ <span class="keyword">return</span> <span class="string">"return a"</span>; }
+int main()
+{
+    <span class="comment">//以下语句的执行过程为</span>
+    <span class="comment">//1.通过std::move将strmy()返回的变量转化成为右值引用</span>
+    <span class="comment">//2.调用string(string&amp;&amp; that)来构造变量b</span>
+    <span class="built_in">string</span> b(std::move(strmy()));
+}
+</code></pre><p>还不明白就参考一下<a href="http://stackoverflow.com/questions/3106110/what-are-move-semantics" target="_blank" rel="external">这个链接吧</a></p>
 
       
     </div>
@@ -97,13 +157,13 @@
         
   
   <div class="categories">
-    <a href="/categories/科技生活/">科技生活</a>
+    <a href="/categories/其他人说/">其他人说</a>
   </div>
 
         
   
   <div class="tags">
-    <a href="/tags/求职技巧/">求职技巧</a>
+    <a href="/tags/C/">C++</a>, <a href="/tags/日常提醒/">日常提醒</a>
   </div>
 
 <!-- Baidu Button BEGIN -->
@@ -131,8 +191,8 @@ document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static
 
  <nav id="pagination" >
     
-    <a href="/zh/2015/10/11/the-right-time-join-in-China-market-to-tech-company/" class="alignleft prev" >上一頁</a>
     
+    <a href="/zh/2015/10/26/first-startup-the-trick-in-stock/" class="alignright next" >下一頁</a>
     
     <div class="clearfix"></div>
 </nav>
